@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>使用registry搭建一个简单的docker私有仓库 | 学非探其花</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="description" content="博观而约取，厚积而薄发">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    
+    <link rel="preload" href="/assets/css/0.styles.2896d957.css" as="style"><link rel="preload" href="/assets/js/app.66652cc3.js" as="script"><link rel="preload" href="/assets/js/3.c1c8d2ac.js" as="script"><link rel="preload" href="/assets/js/1.9ef8147e.js" as="script"><link rel="preload" href="/assets/js/61.4ab9720e.js" as="script"><link rel="prefetch" href="/assets/js/10.54715ee2.js"><link rel="prefetch" href="/assets/js/11.74ee8c2b.js"><link rel="prefetch" href="/assets/js/12.e80f3743.js"><link rel="prefetch" href="/assets/js/13.0e742480.js"><link rel="prefetch" href="/assets/js/14.e5db6410.js"><link rel="prefetch" href="/assets/js/15.78a98c75.js"><link rel="prefetch" href="/assets/js/16.2d4a3a05.js"><link rel="prefetch" href="/assets/js/17.119ded70.js"><link rel="prefetch" href="/assets/js/18.36107577.js"><link rel="prefetch" href="/assets/js/19.827e4028.js"><link rel="prefetch" href="/assets/js/20.653dee43.js"><link rel="prefetch" href="/assets/js/21.3c8b9a5f.js"><link rel="prefetch" href="/assets/js/22.19ecc414.js"><link rel="prefetch" href="/assets/js/23.c56d66ec.js"><link rel="prefetch" href="/assets/js/24.871e0fcc.js"><link rel="prefetch" href="/assets/js/25.ec5b5156.js"><link rel="prefetch" href="/assets/js/26.e448aadb.js"><link rel="prefetch" href="/assets/js/27.cfd8e109.js"><link rel="prefetch" href="/assets/js/28.c288c932.js"><link rel="prefetch" href="/assets/js/29.4951f2a8.js"><link rel="prefetch" href="/assets/js/30.deb7ebe4.js"><link rel="prefetch" href="/assets/js/31.7d8daa75.js"><link rel="prefetch" href="/assets/js/32.08ed9869.js"><link rel="prefetch" href="/assets/js/33.4e8c49e2.js"><link rel="prefetch" href="/assets/js/34.6b4d3397.js"><link rel="prefetch" href="/assets/js/35.3fef4d97.js"><link rel="prefetch" href="/assets/js/36.c907d72b.js"><link rel="prefetch" href="/assets/js/37.7f3ee858.js"><link rel="prefetch" href="/assets/js/38.7988de20.js"><link rel="prefetch" href="/assets/js/39.98309a2c.js"><link rel="prefetch" href="/assets/js/4.614622dc.js"><link rel="prefetch" href="/assets/js/40.0e560784.js"><link rel="prefetch" href="/assets/js/41.b4b0f949.js"><link rel="prefetch" href="/assets/js/42.d1074490.js"><link rel="prefetch" href="/assets/js/43.e747019c.js"><link rel="prefetch" href="/assets/js/44.e2a0bec1.js"><link rel="prefetch" href="/assets/js/45.9b8e8084.js"><link rel="prefetch" href="/assets/js/46.73149bfc.js"><link rel="prefetch" href="/assets/js/47.2b53e8b8.js"><link rel="prefetch" href="/assets/js/48.68538018.js"><link rel="prefetch" href="/assets/js/49.bbb650c7.js"><link rel="prefetch" href="/assets/js/5.170f5f12.js"><link rel="prefetch" href="/assets/js/50.1d8041a7.js"><link rel="prefetch" href="/assets/js/51.1130ee37.js"><link rel="prefetch" href="/assets/js/52.4d4c7831.js"><link rel="prefetch" href="/assets/js/53.d14a7c8f.js"><link rel="prefetch" href="/assets/js/54.75e653b1.js"><link rel="prefetch" href="/assets/js/55.3b3a915b.js"><link rel="prefetch" href="/assets/js/56.cbb198a6.js"><link rel="prefetch" href="/assets/js/57.6580dcf3.js"><link rel="prefetch" href="/assets/js/58.fa6fe5b3.js"><link rel="prefetch" href="/assets/js/59.f7fb8391.js"><link rel="prefetch" href="/assets/js/6.40f958de.js"><link rel="prefetch" href="/assets/js/60.be25503d.js"><link rel="prefetch" href="/assets/js/62.dca835a8.js"><link rel="prefetch" href="/assets/js/63.756b8287.js"><link rel="prefetch" href="/assets/js/64.a4002f11.js"><link rel="prefetch" href="/assets/js/65.f3c05913.js"><link rel="prefetch" href="/assets/js/66.62e844b9.js"><link rel="prefetch" href="/assets/js/67.3431e59a.js"><link rel="prefetch" href="/assets/js/68.a89d3d2a.js"><link rel="prefetch" href="/assets/js/69.06ccb4ce.js"><link rel="prefetch" href="/assets/js/7.408ae691.js"><link rel="prefetch" href="/assets/js/70.a786d172.js"><link rel="prefetch" href="/assets/js/71.00518b29.js"><link rel="prefetch" href="/assets/js/72.0bb9199b.js"><link rel="prefetch" href="/assets/js/73.a7c9a8cf.js"><link rel="prefetch" href="/assets/js/74.4b0c0b52.js"><link rel="prefetch" href="/assets/js/75.71928c6e.js"><link rel="prefetch" href="/assets/js/76.25d2ad15.js"><link rel="prefetch" href="/assets/js/77.a2ee7424.js"><link rel="prefetch" href="/assets/js/78.7706a818.js"><link rel="prefetch" href="/assets/js/79.0c752bf2.js"><link rel="prefetch" href="/assets/js/8.b0b80de3.js"><link rel="prefetch" href="/assets/js/80.3f5ebce5.js"><link rel="prefetch" href="/assets/js/81.34d7b1e9.js"><link rel="prefetch" href="/assets/js/82.91eaee2b.js"><link rel="prefetch" href="/assets/js/83.32cbff7f.js"><link rel="prefetch" href="/assets/js/84.2887bfb7.js"><link rel="prefetch" href="/assets/js/85.ef59017a.js"><link rel="prefetch" href="/assets/js/86.b4ebb26e.js"><link rel="prefetch" href="/assets/js/87.d2e37459.js"><link rel="prefetch" href="/assets/js/88.162da3af.js"><link rel="prefetch" href="/assets/js/89.a25bdcf5.js"><link rel="prefetch" href="/assets/js/9.34627f2b.js"><link rel="prefetch" href="/assets/js/90.9a153b96.js"><link rel="prefetch" href="/assets/js/91.be18baca.js"><link rel="prefetch" href="/assets/js/92.6bc151b1.js"><link rel="prefetch" href="/assets/js/93.06fc36a7.js"><link rel="prefetch" href="/assets/js/94.bccad795.js"><link rel="prefetch" href="/assets/js/95.d70c1c00.js"><link rel="prefetch" href="/assets/js/96.46c98bcd.js"><link rel="prefetch" href="/assets/js/97.e1eb16b3.js"><link rel="prefetch" href="/assets/js/98.a319b987.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.2896d957.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar" data-v-130b300a><div data-v-130b300a><div class="password-shadow password-wrapper-out" style="display:none;" data-v-25ba6db2 data-v-130b300a data-v-130b300a><h3 class="title" data-v-25ba6db2 data-v-25ba6db2>学非探其花</h3> <p class="description" data-v-25ba6db2 data-v-25ba6db2>博观而约取，厚积而薄发</p> <label id="box" class="inputBox" data-v-25ba6db2 data-v-25ba6db2><input type="password" value="" data-v-25ba6db2> <span data-v-25ba6db2>Konck! Knock!</span> <button data-v-25ba6db2>OK</button></label> <div class="footer" data-v-25ba6db2 data-v-25ba6db2><span data-v-25ba6db2><i class="iconfont reco-theme" data-v-25ba6db2></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-25ba6db2>vuePress-theme-reco</a></span> <span data-v-25ba6db2><i class="iconfont reco-copyright" data-v-25ba6db2></i> <a data-v-25ba6db2><span data-v-25ba6db2>qiucong</span>
+            
+          <span data-v-25ba6db2>2017 - </span>
+          2023
+        </a></span></div></div> <div class="hide" data-v-130b300a><header class="navbar" data-v-130b300a><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/logo.png" alt="学非探其花" class="logo"> <span class="site-name">学非探其花</span></a> <div class="links"><div class="color-picker"><a class="color-button"><i class="iconfont reco-color"></i></a> <div class="color-picker-menu" style="display:none;"><div class="mode-options"><h4 class="title">Choose mode</h4> <ul class="color-mode-options"><li class="dark">dark</li><li class="auto active">auto</li><li class="light">light</li></ul></div></div></div> <div class="search-box"><i class="iconfont reco-search"></i> <input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link"><i class="iconfont reco-home"></i>
+  主页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      分类
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/工具/" class="nav-link"><i class="undefined"></i>
+  工具
+</a></li><li class="dropdown-item"><!----> <a href="/categories/php开发/" class="nav-link"><i class="undefined"></i>
+  php开发
+</a></li><li class="dropdown-item"><!----> <a href="/categories/前端开发/" class="nav-link"><i class="undefined"></i>
+  前端开发
+</a></li><li class="dropdown-item"><!----> <a href="/categories/node开发/" class="nav-link"><i class="undefined"></i>
+  node开发
+</a></li><li class="dropdown-item"><!----> <a href="/categories/python开发/" class="nav-link"><i class="undefined"></i>
+  python开发
+</a></li><li class="dropdown-item"><!----> <a href="/categories/数据库/" class="nav-link"><i class="undefined"></i>
+  数据库
+</a></li></ul></div></div><div class="nav-item"><a href="/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间轴
+</a></div> <!----></nav></div></header> <div class="sidebar-mask" data-v-130b300a></div> <aside class="sidebar" data-v-130b300a><div class="personal-info-wrapper" data-v-39576ba9 data-v-130b300a><!----> <h3 class="name" data-v-39576ba9>
+    qiucong
+  </h3> <div class="num" data-v-39576ba9><div data-v-39576ba9><h3 data-v-39576ba9>87</h3> <h6 data-v-39576ba9>文章</h6></div> <div data-v-39576ba9><h3 data-v-39576ba9>45</h3> <h6 data-v-39576ba9>标签</h6></div></div> <ul class="social-links" data-v-39576ba9></ul> <hr data-v-39576ba9></div> <nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link"><i class="iconfont reco-home"></i>
+  主页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      分类
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/工具/" class="nav-link"><i class="undefined"></i>
+  工具
+</a></li><li class="dropdown-item"><!----> <a href="/categories/php开发/" class="nav-link"><i class="undefined"></i>
+  php开发
+</a></li><li class="dropdown-item"><!----> <a href="/categories/前端开发/" class="nav-link"><i class="undefined"></i>
+  前端开发
+</a></li><li class="dropdown-item"><!----> <a href="/categories/node开发/" class="nav-link"><i class="undefined"></i>
+  node开发
+</a></li><li class="dropdown-item"><!----> <a href="/categories/python开发/" class="nav-link"><i class="undefined"></i>
+  python开发
+</a></li><li class="dropdown-item"><!----> <a href="/categories/数据库/" class="nav-link"><i class="undefined"></i>
+  数据库
+</a></li></ul></div></div><div class="nav-item"><a href="/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间轴
+</a></div> <!----></nav> <!----> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-25ba6db2 data-v-130b300a><h3 class="title" data-v-25ba6db2 data-v-25ba6db2>使用registry搭建一个简单的docker私有仓库</h3> <!----> <label id="box" class="inputBox" data-v-25ba6db2 data-v-25ba6db2><input type="password" value="" data-v-25ba6db2> <span data-v-25ba6db2>Konck! Knock!</span> <button data-v-25ba6db2>OK</button></label> <div class="footer" data-v-25ba6db2 data-v-25ba6db2><span data-v-25ba6db2><i class="iconfont reco-theme" data-v-25ba6db2></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-25ba6db2>vuePress-theme-reco</a></span> <span data-v-25ba6db2><i class="iconfont reco-copyright" data-v-25ba6db2></i> <a data-v-25ba6db2><span data-v-25ba6db2>qiucong</span>
+            
+          <span data-v-25ba6db2>2017 - </span>
+          2023
+        </a></span></div></div> <div data-v-130b300a><main class="page"><section><div class="page-title"><h1 class="title">使用registry搭建一个简单的docker私有仓库</h1> <div data-v-f875f3fc><i class="iconfont reco-account" data-v-f875f3fc><span data-v-f875f3fc>qiucong</span></i> <i class="iconfont reco-date" data-v-f875f3fc><span data-v-f875f3fc>2020/5/12</span></i> <i class="iconfont reco-eye" data-v-f875f3fc><span id="/views/blog/2018/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93.html" data-flag-title="Your Article Title" class="leancloud-visitors" data-v-f875f3fc><a class="leancloud-visitors-count" style="font-size:.9rem;font-weight:normal;color:#999;"></a></span></i> <i class="tags iconfont reco-tag" data-v-f875f3fc><span class="tag-item" data-v-f875f3fc>docker</span><span class="tag-item" data-v-f875f3fc>安装配置</span></i></div></div> <div class="theme-reco-content content__default"><p>使用docker的过程中，如果碰到某些镜像不方便上传到公网的情况下，可以自己搭建一个私有的仓库。如果只是简单使用的情况下，使用<code>registry</code>基本上就可以满足需求了。</p> <h2 id="安装配置"><a href="#安装配置" class="header-anchor">#</a> 安装配置</h2> <h3 id="安装启动"><a href="#安装启动" class="header-anchor">#</a> 安装启动</h3> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code><span class="token comment"># 下载registry镜像</span>
+<span class="token function">sudo</span> <span class="token function">docker</span> pull registry
+
+<span class="token comment"># 查看是不是已经下载了镜像</span>
+<span class="token function">sudo</span> <span class="token function">docker</span> images
+
+<span class="token comment"># 创建目录</span>
+<span class="token function">sudo</span> <span class="token function">mkdir</span> -p /opt/data/registry
+
+<span class="token comment"># 启动容器</span>
+<span class="token function">sudo</span> <span class="token function">docker</span> run -d -p <span class="token number">5000</span>:5000 -v /opt/data/registry:/var/lib/registry --name private_registry registry
+
+<span class="token comment"># 查看是否成功启动该容器</span>
+<span class="token function">sudo</span> <span class="token function">docker</span> <span class="token function">ps</span>
+
+<span class="token comment"># 查看当前ip</span>
+<span class="token function">ip</span> addr show
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><p>其中run的参数中-d : 让容器可以后台运行；-p ：指定映射端口（前者是宿主机的端口号，后者是容器的端口号）；
+-v ：数据挂载（前者是宿主机的目录，后者是容器的目录）；--name : 为运行的容器命名。本机可以直接使用localhost，局域网内其他机器需要通过查出来的ip访问，本文以<code>192.168.1.178</code>为例。</p> <h3 id="查看镜像仓库中所有的镜像"><a href="#查看镜像仓库中所有的镜像" class="header-anchor">#</a> 查看镜像仓库中所有的镜像</h3> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code><span class="token function">curl</span> http://192.168.1.178:5000/v2/_catalog
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>当前还没有镜像所以返回的是<code>{&quot;repositories&quot;:[]}</code>。</p> <h3 id="配置私有仓库可信任"><a href="#配置私有仓库可信任" class="header-anchor">#</a> 配置私有仓库可信任</h3> <p>默认情况下，docker的镜像源要是https的才行，如果只是简单的测试使用可以在配置文件中加入<code>insecure-registries</code>，但是在实际的使用中建议还是使用https进行操作。</p> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code><span class="token comment"># 修改或者新建配置文件</span>
+<span class="token function">sudo</span> <span class="token function">vi</span> /etc/docker/daemon.json
+
+<span class="token comment"># 文件中加入</span>
+<span class="token punctuation">{</span> <span class="token string">&quot;insecure-registries&quot;</span><span class="token builtin class-name">:</span> <span class="token punctuation">[</span><span class="token string">&quot;192.168.1.178:5000&quot;</span><span class="token punctuation">]</span> <span class="token punctuation">}</span>
+
+<span class="token comment"># 重启</span>
+<span class="token function">sudo</span> systemctl daemon-reload
+<span class="token function">sudo</span> systemctl restart <span class="token function">docker</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h2 id="测试一下私有库"><a href="#测试一下私有库" class="header-anchor">#</a> 测试一下私有库</h2> <p>仓库已经创建和配置成功了，可以试试操作和使用。</p> <h3 id="拉取一个镜像并打tag"><a href="#拉取一个镜像并打tag" class="header-anchor">#</a> 拉取一个镜像并打tag</h3> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code><span class="token function">sudo</span> <span class="token function">docker</span> pull hello-world
+<span class="token function">sudo</span> <span class="token function">docker</span> tag hello-world <span class="token number">192.168</span>.1.178:5000/hello-world
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="push到仓库"><a href="#push到仓库" class="header-anchor">#</a> push到仓库</h3> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code><span class="token function">sudo</span> <span class="token function">docker</span> push <span class="token number">192.168</span>.1.178:5000/hello-world
+
+<span class="token function">curl</span> http://192.168.1.178:5000/v2/_catalog
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>push的语法<code>sudo docker push &lt;host&gt;/&lt;project&gt;/&lt;repo&gt;:&lt;tag&gt;</code>，这就是我们刚才打tag的时候为什么要先放host</p> <p>。打tag的语法为：<code>docker tag &lt;img_name&gt;:&lt;tag&gt; &lt;host&gt;/&lt;project&gt;/&lt;repo&gt;:&lt;tag&gt;</code>。</p> <p>查看发现<code>{&quot;repositories&quot;:[&quot;hello-world&quot;]}</code>里面已经有刚刚的push了。也可以到<code>opt/data/registry/docker/registry/v2/repositories</code>里面查看有刚刚新加的镜像。</p> <h3 id="pull镜像"><a href="#pull镜像" class="header-anchor">#</a> pull镜像</h3> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code><span class="token function">sudo</span> <span class="token function">docker</span> pull <span class="token number">192.168</span>.1.178:5000/hello-world
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>pull的语法：<code>docker pull &lt;host&gt;/&lt;project&gt;/&lt;repo&gt;:&lt;tag&gt;</code>。我们可以在局域网里面的其他机器试一下，发现可以正常pull到这个镜像。这样一个简单的私有仓库就搞定了。</p> <h3 id="配置认证"><a href="#配置认证" class="header-anchor">#</a> 配置认证</h3> <p>直接开放一个5000端口的镜像仓库很显然是很不安全的，至少要有一些基础的身份认证。这边以官方文档给出的例子为例。</p> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code><span class="token comment"># 新建一个目录hub为基础文件夹</span>
+<span class="token comment"># 新建两个文件夹</span>
+<span class="token function">mkdir</span> -p auth data
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>编辑auth/nginx.conf文件，注意相关ssl证书的位置，这边放到了auth文件夹中。</p> <div class="language-yml line-numbers-mode"><pre class="language-yml"><code>events <span class="token punctuation">{</span>
+    worker_connections  1024;
+<span class="token punctuation">}</span>
+
+http <span class="token punctuation">{</span>
+
+  upstream docker<span class="token punctuation">-</span>registry <span class="token punctuation">{</span>
+    server registry<span class="token punctuation">:</span>5000;
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">## Set a variable to help us decide if we need to add the</span>
+  <span class="token comment">## 'Docker-Distribution-Api-Version' header.</span>
+  <span class="token comment">## The registry always sets this header.</span>
+  <span class="token comment">## In the case of nginx performing auth, the header is unset</span>
+  <span class="token comment">## since nginx is auth-ing before proxying.</span>
+  map $upstream_http_docker_distribution_api_version $docker_distribution_api_version <span class="token punctuation">{</span>
+    '' 'registry/2.0';
+  <span class="token punctuation">}</span>
+
+  server <span class="token punctuation">{</span>
+    listen 443 ssl;
+    server_name myregistrydomain.com;
+
+    <span class="token comment"># SSL</span>
+    ssl_certificate /etc/nginx/conf.d/domain.crt;
+    ssl_certificate_key /etc/nginx/conf.d/domain.key;
+
+    <span class="token comment"># Recommendations from https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html</span>
+    ssl_protocols TLSv1.1 TLSv1.2;
+    ssl_ciphers 'EECDH+AESGCM<span class="token punctuation">:</span>EDH+AESGCM<span class="token punctuation">:</span>AES256+EECDH<span class="token punctuation">:</span>AES256+EDH';
+    ssl_prefer_server_ciphers on;
+    ssl_session_cache shared<span class="token punctuation">:</span>SSL<span class="token punctuation">:</span>10m;
+
+    <span class="token comment"># disable any limits to avoid HTTP 413 for large image uploads</span>
+    client_max_body_size 0;
+
+    <span class="token comment"># required to avoid HTTP 411: see Issue #1486 (https://github.com/moby/moby/issues/1486)</span>
+    chunked_transfer_encoding on;
+
+    location /v2/ <span class="token punctuation">{</span>
+      <span class="token comment"># Do not allow connections from docker 1.5 and earlier</span>
+      <span class="token comment"># docker pre-1.6.0 did not properly set the user agent on ping, catch &quot;Go *&quot; user agents</span>
+      if ($http_user_agent ~ &quot;^(docker\/1\.(3<span class="token punctuation">|</span>4<span class="token punctuation">|</span>5(<span class="token punctuation">?</span><span class="token tag">!</span>\.<span class="token punctuation">[</span>0<span class="token punctuation">-</span><span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">-</span>dev))<span class="token punctuation">|</span>Go ).<span class="token important">*$&quot;</span> ) <span class="token punctuation">{</span>
+        return 404;
+      <span class="token punctuation">}</span>
+
+      <span class="token comment"># To add basic authentication to v2 use auth_basic setting.</span>
+      auth_basic &quot;Registry realm&quot;;
+      auth_basic_user_file /etc/nginx/conf.d/nginx.htpasswd;
+
+      <span class="token comment">## If $docker_distribution_api_version is empty, the header is not added.</span>
+      <span class="token comment">## See the map directive above where this variable is defined.</span>
+      add_header 'Docker<span class="token punctuation">-</span>Distribution<span class="token punctuation">-</span>Api<span class="token punctuation">-</span>Version' $docker_distribution_api_version always;
+
+      proxy_pass                          http<span class="token punctuation">:</span>//docker<span class="token punctuation">-</span>registry;
+      proxy_set_header  Host              $http_host;   <span class="token comment"># required for docker client's sake</span>
+      proxy_set_header  X<span class="token punctuation">-</span>Real<span class="token punctuation">-</span>IP         $remote_addr; <span class="token comment"># pass on real client's IP</span>
+      proxy_set_header  X<span class="token punctuation">-</span>Forwarded<span class="token punctuation">-</span>For   $proxy_add_x_forwarded_for;
+      proxy_set_header  X<span class="token punctuation">-</span>Forwarded<span class="token punctuation">-</span>Proto $scheme;
+      proxy_read_timeout                  900;
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br></div></div><p>创建访问认证的密码文件auth/nginx.htpasswd，用户名testuser，密码为testpassword</p> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code><span class="token function">docker</span> run --rm --entrypoint htpasswd registry:2 -Bbn testuser testpassword <span class="token operator">&gt;</span> auth/nginx.htpasswd
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>编辑docker-compose.yml文件</p> <div class="language-yml line-numbers-mode"><pre class="language-yml"><code><span class="token key atrule">nginx</span><span class="token punctuation">:</span>
+  <span class="token comment"># Note : Only nginx:alpine supports bcrypt.</span>
+  <span class="token comment"># If you don't need to use bcrypt, you can use a different tag.</span>
+  <span class="token comment"># Ref. https://github.com/nginxinc/docker-nginx/issues/29</span>
+  <span class="token key atrule">image</span><span class="token punctuation">:</span> <span class="token string">&quot;nginx:alpine&quot;</span>
+  <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> 5043<span class="token punctuation">:</span><span class="token number">443</span>
+  <span class="token key atrule">links</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> registry<span class="token punctuation">:</span>registry
+  <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> ./auth<span class="token punctuation">:</span>/etc/nginx/conf.d
+    <span class="token punctuation">-</span> ./auth/nginx.conf<span class="token punctuation">:</span>/etc/nginx/nginx.conf<span class="token punctuation">:</span>ro
+
+<span class="token key atrule">registry</span><span class="token punctuation">:</span>
+  <span class="token key atrule">image</span><span class="token punctuation">:</span> registry<span class="token punctuation">:</span><span class="token number">2</span>
+  <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> ./data<span class="token punctuation">:</span>/var/lib/registry
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><p>启动</p> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code><span class="token function">docker-compose</span> up -d
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>操作仓库</p> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code><span class="token function">docker</span> login -u<span class="token operator">=</span>testuser -p<span class="token operator">=</span>testpassword -e<span class="token operator">=</span>root@example.ch myregistrydomain.com:5043
+<span class="token function">docker</span> tag ubuntu myregistrydomain.com:5043/test
+<span class="token function">docker</span> push myregistrydomain.com:5043/test
+<span class="token function">docker</span> pull myregistrydomain.com:5043/test
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h2 id="docker-hub"><a href="#docker-hub" class="header-anchor">#</a> Docker hub</h2> <p>先在<a href="https://hub.docker.com" target="_blank" rel="noopener noreferrer">官网<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>注册一个账号，然后登录<code>docker login</code>，后面的操作就和在私有仓库操作是一样的。</p></div></section> <footer class="page-edit"><!----> <!----></footer> <!----> <div class="comments-wrapper"><!----></div> <ul class="side-bar sub-sidebar-wrapper" style="width:12rem;" data-v-cb1513f6><li class="level-2" data-v-cb1513f6><a href="/views/blog/2018/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93.html#安装配置" class="sidebar-link reco-side-安装配置" data-v-cb1513f6>安装配置</a></li><li class="level-3" data-v-cb1513f6><a href="/views/blog/2018/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93.html#安装启动" class="sidebar-link reco-side-安装启动" data-v-cb1513f6>安装启动</a></li><li class="level-3" data-v-cb1513f6><a href="/views/blog/2018/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93.html#查看镜像仓库中所有的镜像" class="sidebar-link reco-side-查看镜像仓库中所有的镜像" data-v-cb1513f6>查看镜像仓库中所有的镜像</a></li><li class="level-3" data-v-cb1513f6><a href="/views/blog/2018/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93.html#配置私有仓库可信任" class="sidebar-link reco-side-配置私有仓库可信任" data-v-cb1513f6>配置私有仓库可信任</a></li><li class="level-2" data-v-cb1513f6><a href="/views/blog/2018/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93.html#测试一下私有库" class="sidebar-link reco-side-测试一下私有库" data-v-cb1513f6>测试一下私有库</a></li><li class="level-3" data-v-cb1513f6><a href="/views/blog/2018/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93.html#拉取一个镜像并打tag" class="sidebar-link reco-side-拉取一个镜像并打tag" data-v-cb1513f6>拉取一个镜像并打tag</a></li><li class="level-3" data-v-cb1513f6><a href="/views/blog/2018/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93.html#push到仓库" class="sidebar-link reco-side-push到仓库" data-v-cb1513f6>push到仓库</a></li><li class="level-3" data-v-cb1513f6><a href="/views/blog/2018/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93.html#pull镜像" class="sidebar-link reco-side-pull镜像" data-v-cb1513f6>pull镜像</a></li><li class="level-3" data-v-cb1513f6><a href="/views/blog/2018/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93.html#配置认证" class="sidebar-link reco-side-配置认证" data-v-cb1513f6>配置认证</a></li><li class="level-2" data-v-cb1513f6><a href="/views/blog/2018/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93.html#docker-hub" class="sidebar-link reco-side-docker-hub" data-v-cb1513f6>Docker hub</a></li></ul></main> <!----></div></div></div></div><div class="global-ui"><div class="back-to-ceiling" style="right:1rem;bottom:6rem;width:2.5rem;height:2.5rem;border-radius:.25rem;line-height:2.5rem;display:none;" data-v-c6073ba8 data-v-c6073ba8><svg t="1574745035067" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5404" class="icon" data-v-c6073ba8><path d="M526.60727968 10.90185116a27.675 27.675 0 0 0-29.21455937 0c-131.36607665 82.28402758-218.69155461 228.01873535-218.69155402 394.07834331a462.20625001 462.20625001 0 0 0 5.36959153 69.94390903c1.00431239 6.55289093-0.34802892 13.13561351-3.76865779 18.80351572-32.63518765 54.11355614-51.75690182 118.55860487-51.7569018 187.94566865a371.06718723 371.06718723 0 0 0 11.50484808 91.98906777c6.53300375 25.50556257 41.68394495 28.14064038 52.69160883 4.22606766 17.37162448-37.73630017 42.14135425-72.50938081 72.80769204-103.21549295 2.18761121 3.04276886 4.15646224 6.24463696 6.40373557 9.22774369a1871.4375 1871.4375 0 0 0 140.04691725 5.34970492 1866.36093723 1866.36093723 0 0 0 140.04691723-5.34970492c2.24727335-2.98310674 4.21612437-6.18497483 6.3937923-9.2178004 30.66633723 30.70611158 55.4360664 65.4791928 72.80769147 103.21549355 11.00766384 23.91457269 46.15860503 21.27949489 52.69160879-4.22606768a371.15156223 371.15156223 0 0 0 11.514792-91.99901164c0-69.36717486-19.13165746-133.82216804-51.75690182-187.92578088-3.42062944-5.66790279-4.76302748-12.26056868-3.76865837-18.80351632a462.20625001 462.20625001 0 0 0 5.36959269-69.943909c-0.00994388-166.08943902-87.32547796-311.81420293-218.6915546-394.09823051zM605.93803103 357.87693858a93.93749974 93.93749974 0 1 1-187.89594924 6.1e-7 93.93749974 93.93749974 0 0 1 187.89594924-6.1e-7z" p-id="5405" data-v-c6073ba8></path><path d="M429.50777625 765.63860547C429.50777625 803.39355007 466.44236686 1000.39046097 512.00932183 1000.39046097c45.56695499 0 82.4922232-197.00623328 82.5015456-234.7518555 0-37.75494459-36.9345906-68.35043303-82.4922232-68.34111062-45.57627738-0.00932239-82.52019037 30.59548842-82.51086798 68.34111062z" p-id="5406" data-v-c6073ba8></path></svg></div></div></div>
+    <script src="/assets/js/app.66652cc3.js" defer></script><script src="/assets/js/3.c1c8d2ac.js" defer></script><script src="/assets/js/1.9ef8147e.js" defer></script><script src="/assets/js/61.4ab9720e.js" defer></script>
+  </body>
+</html>
